@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>O projekte - Evidencia Poistenia</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Hlavička sekcie -->
+    <h3 class="page-title">O projekte</h3>
+    <div class="page-title-line mb-4"></div>
+    <div class="text-center text-muted mb-4">
+      <p>Informácie o aplikácii Evidencia Poistenia</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <!-- Jediná sekcia: O projekte -->
+        <section class="mb-5">
+          <h4 class="py-2 px-4 bg-primary bg-opacity-50 text-white rounded-top mb-0 border-bottom-0"></h4>
+          <div class="p-4 bg-white rounded-bottom shadow-sm">
+            <!-- O autorovi -->
+            <div class="mb-5">
+              <h5 class="mb-3 border-bottom pb-2">O autorovi</h5>
+              <div class="d-flex align-items-center">
+                <div class="text-primary me-3">
+                  <i class="fas fa-user-graduate fa-2x opacity-50"></i>
+                </div>
+                <p class="mb-0">Tento projekt vytvorila <strong>Klaudia Urbančíková</strong> v rámci finálneho projektu rekvalifikačného kurzu Tvorba www aplikací v Java SK akreditácia v roku 2025.</p>
+              </div>
+            </div>
+
+            <!-- Popis projektu -->
+            <div class="mb-5">
+              <h5 class="mb-3 border-bottom pb-2">Popis projektu</h5>
+              <p>Cieľom bolo vytvoriť komplexnú webovú aplikáciu s využitím moderných technológií a frameworkov.</p>
+              <p class="mb-0">Aplikácia <strong>Evidencia Poistenia</strong> slúži na správu poistencov a ich poistných zmlúv. Umožňuje jednoduché pridávanie, úpravu a odstránenie poistencov, ako aj vytváranie a správu poistných zmlúv. Aplikácia poskytuje aj základné štatistiky pre lepší prehľad o poistnom portfóliu.</p>
+            </div>
+
+            <!-- Použité technológie -->
+            <div class="mb-5">
+              <h5 class="mb-3 border-bottom pb-2">Použité technológie</h5>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-primary me-3">
+                      <i class="fab fa-java fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>Java</strong>
+                      <p class="mb-0 text-muted small">Hlavný programovací jazyk projektu</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-success me-3">
+                      <i class="fas fa-leaf fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>Spring Boot</strong>
+                      <p class="mb-0 text-muted small">Framework pre tvorbu webových aplikácií</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-info me-3">
+                      <i class="fas fa-database fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>MariaDB</strong>
+                      <p class="mb-0 text-muted small">Relačná databáza pre ukladanie dát</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-danger me-3">
+                      <i class="fas fa-shield-alt fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>Spring Security</strong>
+                      <p class="mb-0 text-muted small">Zabezpečenie aplikácie a správa používateľov</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-warning me-3">
+                      <i class="fab fa-html5 fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>Thymeleaf</strong>
+                      <p class="mb-0 text-muted small">Šablónovací systém pre dynamické webové stránky</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="d-flex">
+                    <div class="text-primary me-3">
+                      <i class="fab fa-bootstrap fa-2x opacity-50"></i>
+                    </div>
+                    <div>
+                      <strong>Bootstrap 5</strong>
+                      <p class="mb-0 text-muted small">CSS framework pre moderný dizajn</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Funkcie aplikácie -->
+            <div class="mb-5">
+              <h5 class="mb-3 border-bottom pb-2">Funkcie aplikácie</h5>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div>
+                    <h6 class="mb-2 fw-bold">Správa poistencov</h6>
+                    <ul class="ps-3 mb-0">
+                      <li>Pridávanie nových poistencov</li>
+                      <li>Úprava existujúcich poistencov</li>
+                      <li>Odstránenie poistencov</li>
+                      <li>Prehľad všetkých poistencov</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <h6 class="mb-2 fw-bold">Správa poistných zmlúv</h6>
+                    <ul class="ps-3 mb-0">
+                      <li>Vytváranie nových zmlúv</li>
+                      <li>Úprava existujúcich zmlúv</li>
+                      <li>Odstránenie zmlúv</li>
+                      <li>Priradenie zmluvy k poistencovi</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <h6 class="mb-2 fw-bold">Autorizácia a autentifikácia</h6>
+                    <ul class="ps-3 mb-0">
+                      <li>Registrácia nových používateľov</li>
+                      <li>Prihlasovanie používateľov</li>
+                      <li>Odhlasovanie používateľov</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <h6 class="mb-2 fw-bold">Štatistiky a prehľady</h6>
+                    <ul class="ps-3 mb-0">
+                      <li>Prehľad aktívnych zmlúv</li>
+                      <li>Štatistiky poistencov</li>
+                      <li>Filtrovanie a vyhľadávanie</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Architektúra projektu -->
+            <div>
+              <h5 class="mb-3 border-bottom pb-2">Architektúra projektu</h5>
+              <p>Projekt je postavený na architektúre Model-View-Controller (MVC) s využitím vrstveného prístupu:</p>
+
+              <div class="row g-4 mt-3">
+                <div class="col-md-4">
+                  <div>
+                    <strong>Entitná vrstva</strong>
+                    <p class="small text-muted mb-0">Definícia entít mapovaných na databázu (JPA)</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div>
+                    <strong>Repozitár vrstva</strong>
+                    <p class="small text-muted mb-0">Prístup k dátam (Spring Data)</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div>
+                    <strong>Servisná vrstva</strong>
+                    <p class="small text-muted mb-0">Logika služba aplikácie</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div>
+                    <strong>Kontrolér vrstva</strong>
+                    <p class="small text-muted mb-0">Spracovanie HTTP požiadaviek</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div>
+                    <strong>Prezentačná vrstva</strong>
+                    <p class="small text-muted mb-0">Zobrazenie dát používateľovi (Thymeleaf)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

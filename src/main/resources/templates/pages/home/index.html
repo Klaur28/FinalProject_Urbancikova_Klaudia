@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+    <title>Domov - Evidencia Poistenia</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+    <main role="main">
+        <!-- Úvodná sekcia s hlavičkou -->
+        <div class="text-center mb-5">
+            <h3>Vítajte v systéme pre evidenciu poistenia</h3>
+            <p class="text-muted mb-3">Tento nástroj slúži na efektívnu správu poistencov, zmlúv a štatistík. Prinášame jednoduchosť, prehľadnosť a kontrolu nad vašimi údajmi.</p>
+        </div>
+
+        <div class="text-center mb-4">
+            <h5 class="text-primary pb-2 border-bottom d-inline-block px-2">Hlavné funkcie systému</h5>
+        </div>
+
+        <!-- Hlavné funkcie -->
+        <div class="row g-3">
+            <!-- Poistenci -->
+            <div class="col-md-4">
+                <div class="bg-white rounded shadow-sm p-3 h-100">
+                    <h5 class="text-primary mb-3">Poistenci</h5>
+                    <ul class="text-muted ps-3 mb-3">
+                        <li>Kompletný zoznam poistených osôb</li>
+                        <li>Pridávanie a úprava poistencov</li>
+                        <li>Vyhľadávanie v databáze</li>
+                    </ul>
+                    <a th:href="@{/poistenci}" class="btn btn-sm btn-outline-primary mt-2">Prejsť na poistencov</a>
+                </div>
+            </div>
+
+            <!-- Zmluvy -->
+            <div class="col-md-4">
+                <div class="bg-white rounded shadow-sm p-3 h-100">
+                    <h5 class="text-success mb-3">Poistné zmluvy</h5>
+                    <ul class="text-muted ps-3 mb-3">
+                        <li>Evidencia všetkých poistných zmlúv</li>
+                        <li>Správa rôznych druhov poistenia</li>
+                        <li>Kontrola platnosti zmlúv</li>
+                    </ul>
+                    <a th:href="@{/poistnezmluvy}" class="btn btn-sm btn-outline-success mt-2">Prejsť na zmluvy</a>
+                </div>
+            </div>
+
+            <!-- Štatistiky -->
+            <div class="col-md-4">
+                <div class="bg-white rounded shadow-sm p-3 h-100">
+                    <h5 class="text-warning mb-3">Štatistiky</h5>
+                    <ul class="text-muted ps-3 mb-3">
+                        <li>Prehľad počtu poistených osôb</li>
+                        <li>Súhrn všetkých poistných zmlúv</li>
+                        <li>Rozdelenie podľa typu poistenia</li>
+                    </ul>
+                    <a th:href="@{/statistiky}" class="btn btn-sm btn-outline-warning mt-2">Prejsť na štatistiky</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sk"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+    <!-- Tu sa nahradí hlavička stránky (meta tagy, CSS, JS) z fragmentu layout.html -->
+    <title>Registrácia</title>
+</head>
+<body>
+
+<!-- Vloženie spoločného headeru (navigácia) z fragmentu layout.html -->
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<!-- Hlavný kontajner pre formulár, vycentrovaný vertikálne aj horizontálne -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
+        <!-- Ikona a nadpis formulára -->
+        <div class="text-center mb-4">
+            <i class="fas fa-user-plus fa-2x text-primary mb-2"></i>
+            <h4 class="fw-bold">Registrácia</h4>
+        </div>
+
+        <!-- Zobrazenie chýb validácie -->
+        <div th:if="${#fields.hasErrors('${accountDTO.*}')}" class="alert alert-danger" role="alert">
+            <ul class="mb-0 ps-3">
+                <li th:each="error : ${#fields.errors('${accountDTO.*}')}" th:text="${error}"></li>
+            </ul>
+        </div>
+
+        <!-- Zobrazenie správy o úspechu ak existuje -->
+        <div th:if="${success}" class="alert alert-success" role="alert" th:text="${success}"></div>
+
+        <!-- Registračný formulár -->
+        <form th:action="@{/account/register}" th:object="${accountDTO}" method="post">
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Emailová adresa</label>
+                <input type="email" th:field="*{email}" class="form-control"
+                       id="email" placeholder="napr. jan@domena.sk" required>
+                <div class="form-text text-info">
+                    <i class="fas fa-info-circle me-1"></i> Pre vytvorenie administrátorského účtu použite emailovú adresu končiacu na @admin.sk
+                </div>
+                <div class="text-danger small" th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}"></div>
+            </div>
+
+            <!-- Heslo -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Heslo</label>
+                <input type="password" th:field="*{password}" class="form-control"
+                       id="password" placeholder="••••••••" required>
+                <div class="text-danger small" th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}"></div>
+            </div>
+
+            <!-- Potvrdenie hesla -->
+            <div class="mb-3">
+                <label for="passwordConfirmation" class="form-label">Potvrdenie hesla</label>
+                <input type="password" th:field="*{passwordConfirmation}" class="form-control"
+                       id="passwordConfirmation" placeholder="••••••••" required>
+                <div class="text-danger small" th:if="${#fields.hasErrors('passwordConfirmation')}"
+                     th:errors="*{passwordConfirmation}"></div>
+            </div>
+
+            <!-- CSRF token zabezpečuje ochranu pred útokmi typu CSRF -->
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
+
+            <!-- Tlačidlo odoslania -->
+            <div class="d-grid">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-user-plus me-1"></i> Registrovať sa
+                </button>
+            </div>
+        </form>
+
+        <!-- Odkaz pre používateľov, ktorí už majú účet -->
+        <p class="text-center mt-3 mb-0">
+            Už máte účet? <a th:href="@{/account/login}">Prihláste sa</a>
+        </p>
+    </div>
+</div>
+
+<!-- Vloženie spoločnej päty stránky z fragmentu layout.html -->
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Chyba - Evidencia Poistenia</title>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5">
+  <h1 class="text-center mb-2">CHYBA</h1>
+  <div class="page-title-line mb-5"></div>
+
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 text-center">
+          <div class="mb-4">
+            <i class="fas fa-exclamation-triangle fa-5x text-warning mb-3"></i>
+            <h2 class="h4">Nastala neočakávaná chyba</h2>
+            <p class="text-muted" th:text="${error} ?: 'Vyskytla sa neočakávaná chyba. Skúste to znova neskôr.'"></p>
+          </div>
+
+          <div class="alert alert-info">
+            <div class="d-flex">
+              <div>
+                <i class="fas fa-info-circle fa-2x me-3"></i>
+              </div>
+              <div class="text-start">
+                <h5 class="alert-heading">Čo môžete urobiť?</h5>
+                <ul class="mb-0">
+                  <li>Skúste obnoviť stránku</li>
+                  <li>Vráťte sa na hlavnú stránku a skúste to znova</li>
+                  <li>Ak problém pretrváva, kontaktujte správcu systému</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <a href="/" class="btn btn-primary mt-3">
+            <i class="fas fa-home me-2"></i>Späť na hlavnú stránku
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Štatistiky</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Hlavička sekcie -->
+    <h3 class="page-title">Štatistiky</h3>
+    <div class="page-title-line mb-4"></div>
+    <div class="text-center text-muted mb-4">
+      <p>Prehľad hlavných štatistík</p>
+    </div>
+
+    <!-- Základné štatistiky v jednom riadku -->
+    <div class="row mb-4 g-3">
+      <div class="col-md-4">
+        <div class="bg-white rounded shadow-sm p-3 text-center">
+          <h2 class="fw-bold mb-0" th:text="${pocetPoistenych}">0</h2>
+          <small class="text-muted">Poistených osôb</small>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-white rounded shadow-sm p-3 text-center">
+          <h2 class="fw-bold mb-0" th:text="${pocetPoisteni}">0</h2>
+          <small class="text-muted">Poistných zmlúv</small>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-white rounded shadow-sm p-3 text-center">
+          <h2 class="fw-bold mb-0" th:text="${pocetUdalosti}">0</h2>
+          <small class="text-muted">Poistných udalostí</small>
+        </div>
+      </div>
+    </div>
+
+      <!-- Rozdelenie podľa typu poistenia -->
+      <div class="row g-4 mb-4">
+          <div class="col-md-6">
+              <div class="dashboard-section h-100">
+                  <h2 class="detail-title">
+                      <i class="fas fa-chart-pie me-2"></i>Rozdelenie podľa typu poistenia
+                  </h2>
+                  <hr>
+                  <div class="table-responsive">
+                      <table class="table table-hover mb-0">
+                          <thead>
+                          <tr>
+                              <th>Typ poistenia</th>
+                              <th class="text-center">Počet</th>
+                              <th class="text-end">Podiel</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr th:each="entry : ${rozdeleniePodlaTypu}">
+                              <td>
+                                  <span th:if="${entry.key == 'ZIVOTNE'}" class="badge bg-primary me-2">Životné</span>
+                                  <span th:if="${entry.key == 'MAJETKOVE'}" class="badge bg-success me-2">Majetkové</span>
+                                  <span th:if="${entry.key == 'CESTOVNE'}" class="badge bg-info me-2">Cestovné</span>
+                                  <span th:if="${entry.key == 'ZODPOVEDNOST'}" class="badge bg-secondary me-2">Zodpovednosť</span>
+                                  <span th:text="${entry.key}">—</span>
+                              </td>
+                              <td class="text-center fw-medium" th:text="${entry.value}">0</td>
+                              <td class="text-end">
+                                  <div class="d-flex align-items-center justify-content-end">
+                                      <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                          <div class="progress-bar"
+                                               th:style="'width: ' + ${(entry.value*100.0)/pocetPoisteni} + '%;'"
+                                               role="progressbar"
+                                               th:aria-valuenow="${(entry.value*100.0)/pocetPoisteni}"
+                                               aria-valuemin="0"
+                                               aria-valuemax="100"></div>
+                                      </div>
+                                      <span class="fw-medium text-nowrap" th:text="${#numbers.formatDecimal((entry.value*100.0)/pocetPoisteni, 0, 'POINT', 1, 'COMMA')} + '%'">0%</span>
+                                  </div>
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+  </main>
+
+    <!-- Tlačidlá na spodku stránky -->
+    <div class="text-center">
+      <a th:href="@{/}" class="btn btn-outline-secondary btn-sm me-2">Domov</a>
+      <a th:href="@{/poistenci}" class="btn btn-primary btn-sm me-2">Poistenci</a>
+      <a th:href="@{/poistnezmluvy}" class="btn btn-success btn-sm">Zmluvy</a>
+    </div>
+
+
+</div>
+
+</div>
+
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Detail poistenca</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Navigačná lišta (breadcrumb) -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Domov</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/poistenci}">Poistenci</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detail poistenca</li>
+      </ol>
+    </nav>
+    <h3 class="page-title">Detail poistenca</h3>
+    <div class="page-title-line mb-4"></div>
+    <div class="text-center text-muted mb-4">
+      <p>Informácie o poistencovi.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-primary bg-opacity-50 text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" th:text="${poistenec.meno + ' ' + poistenec.priezvisko}">Detail poistenca</h5>
+            <div>
+              <a th:href="@{/poistenci/{id}/oprav(id=${poistenec.id})}" class="btn btn-light btn-sm">
+                <i class="fas fa-edit me-1"></i> Upraviť
+              </a>
+              <button type="button" class="btn btn-outline-light btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <i class="fas fa-trash me-1"></i> Vymazať
+              </button>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <!-- Zobrazenie chybovej správy, ak existuje -->
+            <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+            <div class="row g-4 mb-4">
+              <!-- Osobné údaje -->
+              <div class="col-md-6">
+                <h5 class="mb-3 border-bottom pb-2">Osobné údaje</h5>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">ID:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <span class="badge bg-light text-dark" th:text="${poistenec.id}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Meno:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-user me-1 text-primary opacity-50 small"></i>
+                      <span th:text="${poistenec.meno}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Priezvisko:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-user me-1 text-primary opacity-50 small"></i>
+                      <span th:text="${poistenec.priezvisko}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Email:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-envelope me-1 text-primary opacity-50 small"></i>
+                      <a th:href="'mailto:' + ${poistenec.email}" th:text="${poistenec.email}" class="text-decoration-none"></a>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Telefón:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-phone me-1 text-primary opacity-50 small"></i>
+                      <a th:href="'tel:' + ${poistenec.telefon}" th:text="${poistenec.telefon}" class="text-decoration-none"></a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Adresa -->
+              <div class="col-md-6">
+                <h5 class="mb-3 border-bottom pb-2">Adresa</h5>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Ulica:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-map-marker-alt me-1 text-primary opacity-50 small"></i>
+                      <span th:text="${poistenec.ulica}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Mesto:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-city me-1 text-primary opacity-50 small"></i>
+                      <span th:text="${poistenec.mesto}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">PSČ:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-map-pin me-1 text-primary opacity-50 small"></i>
+                      <span th:text="${poistenec.psc}"></span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-4 col-form-label text-muted">Aktívny od:</label>
+                  <div class="col-sm-8">
+                    <p class="form-control-plaintext">
+                      <i class="fas fa-calendar-check me-1 text-primary opacity-50 small"></i>
+                      <span th:if="${poistenec.createdAt != null}" th:text="${#temporals.format(poistenec.createdAt, 'dd.MM.yyyy')}">01.01.2025</span>
+                      <span th:if="${poistenec.createdAt == null}">—</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h5 class="mb-3 border-bottom pb-2">Poistné zmluvy</h5>
+            <div class="mb-4">
+              <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/poistnezmluvy/novy}" class="btn btn-outline-primary btn-sm">
+                  <i class="fas fa-plus-circle me-1"></i> Pridať zmluvu
+                </a>
+              </div>
+
+              <!-- Tabuľka zmlúv -->
+              <div th:if="${not #lists.isEmpty(poistenec.zmluvy)}">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                    <tr>
+                      <th>Číslo zmluvy</th>
+                      <th>Druh poistenia</th>
+                      <th>Platnosť od</th>
+                      <th>Platnosť do</th>
+                      <th>Suma (€)</th>
+                      <th class="text-end">Akcie</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="zmluva : ${poistenec.zmluvy}">
+                      <td>
+                        <i class="fas fa-file-contract me-1 text-primary opacity-50 small"></i>
+                        <span th:text="${zmluva.cisloZmluvy}"></span>
+                      </td>
+                      <td>
+                          <span th:switch="${zmluva.druhPoistenia}" class="badge rounded-pill"
+                                th:classappend="${
+                                  zmluva.druhPoistenia == 'Auto' ? 'bg-primary bg-opacity-50' :
+                                  zmluva.druhPoistenia == 'Nehnuteľnosť' ? 'bg-success bg-opacity-50' :
+                                  zmluva.druhPoistenia == 'Cestovné' ? 'bg-info bg-opacity-50' :
+                                  zmluva.druhPoistenia == 'Zdravotné' ? 'bg-warning bg-opacity-50' :
+                                  zmluva.druhPoistenia == 'Životné' ? 'bg-danger bg-opacity-50' : 'bg-secondary bg-opacity-50'
+                                }">
+                            <i th:switch="${zmluva.druhPoistenia}" class="fas me-1"
+                               th:classappend="${
+                                 zmluva.druhPoistenia == 'Auto' ? 'fa-car' :
+                                 zmluva.druhPoistenia == 'Nehnuteľnosť' ? 'fa-home' :
+                                 zmluva.druhPoistenia == 'Cestovné' ? 'fa-plane' :
+                                 zmluva.druhPoistenia == 'Zdravotné' ? 'fa-heartbeat' :
+                                 zmluva.druhPoistenia == 'Životné' ? 'fa-user-shield' : 'fa-shield-alt'
+                               }"></i>
+                            <span th:text="${zmluva.druhPoistenia}"></span>
+                          </span>
+                      </td>
+                      <td th:text="${#temporals.format(zmluva.platnostOd, 'dd.MM.yyyy')}"></td>
+                      <td>
+                        <span th:text="${#temporals.format(zmluva.platnostDo, 'dd.MM.yyyy')}"></span>
+                        <span th:if="${#temporals.createToday() gt zmluva.platnostDo}"
+                              class="badge bg-danger bg-opacity-50 ms-1" title="Platnosť vypršala">
+                            <i class="fas fa-exclamation-circle"></i>
+                          </span>
+                      </td>
+                      <td th:text="${#numbers.formatDecimal(zmluva.suma, 0, 'POINT', 2, 'COMMA')}"></td>
+                      <td class="text-end">
+                        <a th:href="@{/poistnezmluvy/{id}(id=${zmluva.id})}" class="btn btn-outline-info btn-sm me-1">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a th:href="@{/poistnezmluvy/{id}/oprav(id=${zmluva.id})}" class="btn btn-outline-primary btn-sm">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Súhrn poistení -->
+                <div class="mt-4 p-3 bg-light rounded border">
+                  <div class="row text-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                      <div class="small text-muted mb-1">Počet poistných zmlúv</div>
+                      <div class="fs-5 fw-bold" th:text="${#lists.size(poistenec.zmluvy)}">0</div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                      <div class="small text-muted mb-1">Celková hodnota</div>
+                      <div class="fs-5 fw-bold text-success" th:with="total=${poistenec.zmluvy.![suma].sum()}"
+                           th:text="${#numbers.formatDecimal(total, 0, 'POINT', 2, 'COMMA')} + ' €'">0.00 €</div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="small text-muted mb-1">Typy poistení</div>
+                      <div>
+                        <span th:each="type : ${poistenec.zmluvy.![druhPoistenia].distinct()}" class="badge rounded-pill me-1"
+                              th:classappend="${
+                                type == 'Auto' ? 'bg-primary bg-opacity-50' :
+                                type == 'Nehnuteľnosť' ? 'bg-success bg-opacity-50' :
+                                type == 'Cestovné' ? 'bg-info bg-opacity-50' :
+                                type == 'Zdravotné' ? 'bg-warning bg-opacity-50' :
+                                type == 'Životné' ? 'bg-danger bg-opacity-50' : 'bg-secondary bg-opacity-50'
+                              }">
+                          <span th:text="${type}"></span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Žiadne zmluvy -->
+              <div th:if="${#lists.isEmpty(poistenec.zmluvy)}" class="text-center py-5 bg-light rounded">
+                <i class="fas fa-file-contract fa-3x text-muted opacity-50 mb-3"></i>
+                <p class="text-muted mb-4">Tento poistenec zatiaľ nemá žiadne poistné zmluvy</p>
+                <a th:href="@{/poistnezmluvy/novy}" class="btn btn-outline-primary">
+                  <i class="fas fa-plus-circle me-1"></i> Vytvoriť novú zmluvu
+                </a>
+              </div>
+            </div>
+
+            <!-- Tlačidlá akcií -->
+            <div class="d-flex justify-content-between">
+              <a th:href="@{/poistenci}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i> Späť na zoznam
+              </a>
+              <div>
+                <a th:href="@{/poistenci/{id}/oprav(id=${poistenec.id})}" class="btn btn-primary me-2">
+                  <i class="fas fa-edit me-1"></i> Upraviť
+                </a>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-file-pdf me-1"></i> Reporty
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf me-2 text-danger"></i> Karta poistenca</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2 text-primary"></i> Prehľad poistení</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2 text-success"></i> Odoslať dokumenty</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal pre potvrdenie vymazania -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header bg-danger bg-opacity-50 text-white">
+            <h5 class="modal-title" id="deleteModalLabel">Potvrdiť vymazanie</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <p class="mb-4">
+              Naozaj chcete vymazať poistenca <strong th:text="${poistenec.meno + ' ' + poistenec.priezvisko}"></strong>?
+            </p>
+            <div class="alert alert-danger bg-danger bg-opacity-10 border-danger">
+              <div class="d-flex">
+                <div class="me-2">
+                  <i class="fas fa-exclamation-triangle text-danger"></i>
+                </div>
+                <div>
+                  <strong>Upozornenie:</strong> Budú vymazané aj všetky jeho poistné zmluvy!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Zrušiť</button>
+            <form th:action="@{/poistenci/{id}/vymaz(id=${poistenec.id})}" method="post">
+              <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash me-1"></i> Vymazať
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

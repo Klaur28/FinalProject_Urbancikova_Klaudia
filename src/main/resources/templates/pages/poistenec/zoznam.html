@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Zoznam poistencov</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Navigačná lišta (breadcrumb) -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Domov</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Poistenci</li>
+      </ol>
+    </nav>
+    <!-- Hlavička sekcie -->
+    <h3 class="page-title">Zoznam poistencov</h3>
+    <div class="page-title-line mb-4"></div>
+    <div class="text-center text-muted mb-4">
+      <p>Prehľad všetkých registrovaných poistencov</p>
+    </div>
+
+    <!-- Akčné tlačidlá -->
+    <div class="d-flex justify-content-end mb-4">
+      <a th:href="@{/poistenci/novy}" class="btn btn-outline-success">
+        <i class="fas fa-plus me-2"></i> Pridať nového poistenca
+      </a>
+    </div>
+    <!-- Filtrovacie nástroje -->
+    <div class="bg-white rounded shadow-sm p-3 mb-4">
+      <div class="d-flex flex-wrap justify-content-between align-items-center">
+        <div class="text-muted mb-2 mb-md-0">
+          <i class="fas fa-users me-2"></i>
+          <span>Celkom nájdených poistencov: <strong th:text="${#lists.size(poistenci)}">0</strong></span>
+        </div>
+        <div class="input-group" style="max-width: 300px;">
+          <input type="text" class="form-control form-control-sm" placeholder="Hľadať poistenca...">
+          <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabuľka poistencov -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Meno</th>
+              <th>Priezvisko</th>
+              <th>Email</th>
+              <th>Telefón</th>
+              <th>Adresa</th>
+              <th class="text-end">Akcie</th>
+            </tr>
+            </thead>
+            <tbody th:if="${#lists.isEmpty(poistenci)}">
+            <tr>
+              <td colspan="7" class="text-center py-5">
+                <div class="py-3">
+                  <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                  <p class="lead text-muted mb-0">Žiadni poistenci</p>
+                  <p class="text-muted small">Zatiaľ neboli vytvorení žiadni poistenci</p>
+                  <a th:href="@{/poistenci/novy}" class="btn btn-success btn-sm mt-2">
+                    <i class="fas fa-user-plus me-1"></i> Vytvoriť poistenca
+                  </a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr th:each="p : ${poistenci}">
+              <td><span class="badge bg-light text-dark" th:text="${p.id}"></span></td>
+              <td th:text="${p.meno}"></td>
+              <td th:text="${p.priezvisko}"></td>
+              <td>
+                <a th:href="'mailto:' + ${p.email}" class="text-decoration-none">
+                  <i class="fas fa-envelope me-1 text-muted small"></i>
+                  <span th:text="${p.email}"></span>
+                </a>
+              </td>
+              <td>
+                <a th:if="${p.telefon != null}" th:href="'tel:' + ${p.telefon}" class="text-decoration-none">
+                  <i class="fas fa-phone me-1 text-muted small"></i>
+                  <span th:text="${p.telefon}"></span>
+                </a>
+              </td>
+              <td>
+                <span th:if="${p.ulica != null}" th:text="${p.ulica + ', ' + p.mesto + ' ' + p.psc}"></span>
+              </td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <a th:href="@{|/poistenci/${p.id}|}" class="btn btn-info" title="Zobraziť detail">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a th:if="${#authentication.principal?.username == p.email or #authorization.expression('hasRole(''ADMIN'')')}"
+                     th:href="@{|/poistenci/${p.id}/oprav|}" class="btn btn-primary" title="Upraviť">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button th:if="${#authentication.principal?.username == p.email or #authorization.expression('hasRole(''ADMIN'')')}"
+                          type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${p.id}" title="Vymazať">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+
+                <!-- Modal vymazania -->
+                <div class="modal fade" th:id="'deleteModal' + ${p.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Potvrdiť vymazanie</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Naozaj chcete vymazať poistenca <strong th:text="${p.meno + ' ' + p.priezvisko}"></strong>?</p>
+                        <div class="alert alert-danger">
+                          <div class="d-flex">
+                            <div class="me-2"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div><strong>Upozornenie:</strong> Budú vymazané aj všetky jeho poistné zmluvy!</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
+                        <form th:action="@{|/poistenci/${p.id}/vymaz|}" method="post">
+                          <button type="submit" class="btn btn-danger">Vymazať poistenca</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

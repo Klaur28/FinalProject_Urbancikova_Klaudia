@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Nová poistná zmluva</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Navigačná lišta (breadcrumb) -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Domov</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/poistnezmluvy}">Poistné zmluvy</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nová poistná zmluva</li>
+      </ol>
+    </nav>
+    <h3 class="page-title">Nová poistná zmluva</h3>
+    <div class="page-title-line mb-4"></div>
+
+    <div class="text-center text-muted mb-4">
+      <p>Prosím, vyplňte všetky údaje pre vytvorenie novej poistnej zmluvy.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <form th:action="@{/poistnezmluvy}"
+                  th:object="${poistnaZmluva}"
+                  method="post"
+                  class="needs-validation"
+                  novalidate>
+
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                  <label for="cisloZmluvy" class="form-label">Číslo zmluvy</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-file-contract"></i></span>
+                    <input type="text"
+                           id="cisloZmluvy"
+                           th:field="*{cisloZmluvy}"
+                           class="form-control"
+                           placeholder="Zmluva 123"
+                           required />
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('cisloZmluvy')}"
+                       th:errors="*{cisloZmluvy}">Zadaj číslo zmluvy</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="druhPoistenia" class="form-label">Druh poistenia</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                    <input type="text"
+                           id="druhPoistenia"
+                           th:field="*{druhPoistenia}"
+                           class="form-control"
+                           placeholder="Poistenie nehnuteľnosti"
+                           required />
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('druhPoistenia')}"
+                       th:errors="*{druhPoistenia}">Zadaj druh poistenia</div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                  <label for="platnostOd" class="form-label">Platnosť od</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    <input type="date"
+                           id="platnostOd"
+                           th:field="*{platnostOd}"
+                           class="form-control"
+                           required />
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('platnostOd')}"
+                       th:errors="*{platnostOd}">Zadaj dátum začiatku platnosti</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="platnostDo" class="form-label">Platnosť do</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                    <input type="date"
+                           id="platnostDo"
+                           th:field="*{platnostDo}"
+                           class="form-control"
+                           required />
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('platnostDo')}"
+                       th:errors="*{platnostDo}">Zadaj dátum konca platnosti</div>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                  <label for="suma" class="form-label">Suma (€)</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-euro-sign"></i></span>
+                    <input type="number"
+                           step="0.01"
+                           id="suma"
+                           th:field="*{suma}"
+                           class="form-control"
+                           placeholder="0.00"
+                           required />
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('suma')}"
+                       th:errors="*{suma}">Zadaj sumu poistného</div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label for="relation" class="form-label">Vzťah k poisteniu</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>
+                    <select id="relation"
+                            th:field="*{relation}"
+                            class="form-select"
+                            required>
+                      <option value="" disabled selected>— Vyber vzťah —</option>
+                      <option th:each="rel : ${relations}"
+                              th:value="${rel}"
+                              th:text="${rel.label}">
+                      </option>
+                    </select>
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('relation')}"
+                       th:errors="*{relation}">Vyber vzťah k poisteniu</div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label for="poistenec" class="form-label">Poistenec</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <select id="poistenec"
+                            th:field="*{poistenecId}"
+                            class="form-select"
+                            required>
+                      <option value="" disabled selected>— Vyber poistenca —</option>
+                      <option th:each="p: ${poistenci}"
+                              th:value="${p.id}"
+                              th:text="${p.meno} + ' ' + ${p.priezvisko}"
+                              th:selected="${poistnaZmluva.poistenecId == p.id}">
+                      </option>
+                    </select>
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('poistenecId')}"
+                       th:errors="*{poistenecId}">Vyber poistenca</div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save me-2"></i> Uložiť
+                </button>
+                <a th:href="@{/poistnezmluvy}" class="btn btn-secondary">
+                  <i class="fas fa-times me-2"></i> Zrušiť
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+    <title>Zoznam poistných zmlúv</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+    <main role="main">
+        <!-- Navigačná lišta (breadcrumb) -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Domov</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Poistné zmluvy</li>
+            </ol>
+        </nav>
+
+        <!-- Hlavička sekcie -->
+        <h3 class="page-title">Zoznam poistných zmlúv</h3>
+        <div class="page-title-line mb-4"></div>
+        <div class="text-center text-muted mb-4">
+            <p>Prehľad všetkých registrovaných poistných zmlúv</p>
+        </div>
+
+        <!-- Akčné tlačidlá -->
+        <div class="d-flex justify-content-end mb-4">
+            <a th:href="@{/poistnezmluvy/novy}" class="btn btn-outline-success">
+                <i class="fas fa-plus me-2"></i> Pridať zmluvu
+            </a>
+        </div>
+
+        <!-- Filtrovacie nástroje -->
+        <div class="bg-white rounded shadow-sm p-3 mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="text-muted mb-2 mb-md-0">
+                    <i class="fas fa-users me-2"></i>
+                    <span>Celkom nájdených zmlúv: <strong th:text="${#lists.size(zmluvy)}">0</strong></span>
+                </div>
+                <div class="input-group" style="max-width: 300px;">
+                    <input type="text" class="form-control form-control-sm" placeholder="Hľadať zmluvu...">
+                    <button class="btn btn-outline-secondary btn-sm"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabuľka poistných zmlúv -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Číslo zmluvy</th>
+                            <th>Druh poistenia</th>
+                            <th>Platnosť od</th>
+                            <th>Platnosť do</th>
+                            <th>Suma (€)</th>
+                            <th>Vzťah</th>
+                            <th class="text-end">Akcie</th>
+                        </tr>
+                        </thead>
+                        <tbody th:if="${#lists.isEmpty(zmluvy)}">
+                        <tr>
+                            <td colspan="8" class="text-center py-5">
+                                <div class="py-3">
+                                    <i class="fas fa-file-contract fa-3x text-muted opacity-50 mb-3"></i>
+                                    <p class="lead text-muted mb-0">Žiadne poistné zmluvy</p>
+                                    <p class="text-muted small">Zatiaľ neboli vytvorené žiadne poistné zmluvy</p>
+                                    <a th:href="@{/poistnezmluvy/novy}" class="btn btn-outline-success btn-sm mt-2">
+                                        <i class="fas fa-plus me-1"></i> Vytvoriť zmluvu
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr th:each="z : ${zmluvy}">
+                            <td><span class="badge bg-light text-dark" th:text="${z.id}"></span></td>
+                            <td>
+                                <i class="fas fa-file-contract text-primary opacity-50 me-1 small"></i>
+                                <span th:text="${z.cisloZmluvy}">ZMLUVA‑123</span>
+                            </td>
+                            <td>
+                  <span th:switch="${z.druhPoistenia}" class="badge rounded-pill"
+                        th:classappend="${
+                          z.druhPoistenia == 'Auto' ? 'bg-primary bg-opacity-50' :
+                          z.druhPoistenia == 'Nehnuteľnosť' ? 'bg-success bg-opacity-50' :
+                          z.druhPoistenia == 'Cestovné' ? 'bg-info bg-opacity-50' :
+                          z.druhPoistenia == 'Zdravotné' ? 'bg-warning bg-opacity-50' :
+                          z.druhPoistenia == 'Životné' ? 'bg-danger bg-opacity-50' : 'bg-secondary bg-opacity-50'
+                        }">
+                    <i th:switch="${z.druhPoistenia}" class="fas me-1"
+                       th:classappend="${
+                         z.druhPoistenia == 'Auto' ? 'fa-car' :
+                         z.druhPoistenia == 'Nehnuteľnosť' ? 'fa-home' :
+                         z.druhPoistenia == 'Cestovné' ? 'fa-plane' :
+                         z.druhPoistenia == 'Zdravotné' ? 'fa-heartbeat' :
+                         z.druhPoistenia == 'Životné' ? 'fa-user-shield' : 'fa-shield-alt'
+                       }"></i>
+                    <span th:text="${z.druhPoistenia}"></span>
+                  </span>
+                            </td>
+                            <td>
+                                <i class="fas fa-calendar-alt text-primary opacity-50 me-1 small"></i>
+                                <span th:text="${z.platnostOd.format(T(java.time.format.DateTimeFormatter).ofPattern('dd.MM.yyyy'))}">01.01.2025</span>
+                            </td>
+                            <td>
+                                <i class="fas fa-calendar-alt text-primary opacity-50 me-1 small"></i>
+                                <span th:text="${z.platnostDo.format(T(java.time.format.DateTimeFormatter).ofPattern('dd.MM.yyyy'))}">31.12.2025</span>
+                                <span th:if="${z.platnostDo.isBefore(T(java.time.LocalDate).now())}"
+                                      class="badge bg-danger bg-opacity-50 ms-1" title="Platnosť vypršala">
+                    <i class="fas fa-exclamation-circle"></i>
+                  </span>
+                            </td>
+                            <td>
+                                <i class="fas fa-euro-sign text-primary opacity-50 me-1 small"></i>
+                                <span th:text="${#numbers.formatDecimal(z.suma, 0, 'POINT', 2, 'COMMA')}">123.45</span>
+                            </td>
+                            <td>
+                  <span th:text="${z.relation.label}"
+                        class="badge rounded-pill"
+                        th:classappend="${
+                          z.relation.label == 'Poistený' ? 'bg-info bg-opacity-50' :
+                          z.relation.label == 'Poistník' ? 'bg-warning bg-opacity-50' :
+                          z.relation.label == 'Oprávnená osoba' ? 'bg-success bg-opacity-50' : 'bg-secondary bg-opacity-50'
+                        }">Poistený</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group btn-group-sm">
+                                    <a th:href="@{|/poistnezmluvy/${z.id}|}" class="btn btn-info" title="Zobraziť detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{|/poistnezmluvy/${z.id}/oprav|}" class="btn btn-primary" title="Upraviť">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${z.id}" title="Vymazať">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Modal vymazania -->
+                                <div class="modal fade" th:id="'deleteModal' + ${z.id}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content border-0 shadow">
+                                            <div class="modal-header bg-danger bg-opacity-50 text-white">
+                                                <h5 class="modal-title" id="deleteModalLabel">Potvrdiť vymazanie</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body p-4">
+                                                <p class="mb-4">Naozaj chcete vymazať poistnú zmluvu <strong th:text="${z.cisloZmluvy}"></strong>?</p>
+                                                <div class="alert alert-danger bg-danger bg-opacity-10 border-danger">
+                                                    <div class="d-flex">
+                                                        <div class="me-2"><i class="fas fa-exclamation-triangle text-danger"></i></div>
+                                                        <div><strong>Upozornenie:</strong> Táto akcia je nezvratná!</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer border-0">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušiť</button>
+                                                <form th:action="@{|/poistnezmluvy/${z.id}/vymaz|}" method="post">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fas fa-trash-alt me-1"></i> Vymazať zmluvu
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>

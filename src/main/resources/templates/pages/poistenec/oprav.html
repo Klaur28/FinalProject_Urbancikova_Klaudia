@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+  <title>Upraviť poistenca</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+<div class="container py-5 flex-grow-1">
+  <main role="main">
+    <!-- Navigačná lišta (breadcrumb) -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Domov</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/poistenci}">Poistenci</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Úprava poistenca</li>
+      </ol>
+    </nav>
+    <h3 class="page-title">Upraviť poistenca</h3>
+    <div class="page-title-line mb-4"></div>
+    <div class="text-center text-muted mb-4">
+      <p>Uprav údaje o poistencovi.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <form th:action="@{|/poistenci/${poistenec.id}/oprav|}"
+                  th:object="${poistenec}"
+                  method="post"
+                  class="needs-validation"
+                  novalidate>
+
+              <!-- Meno -->
+              <div class="mb-3">
+                <label for="meno" class="form-label">Meno</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text"
+                         id="meno"
+                         th:field="*{meno}"
+                         class="form-control"
+                         required>
+                </div>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('meno')}"
+                     th:errors="*{meno}">Zadaj meno</div>
+              </div>
+
+              <!-- Priezvisko -->
+              <div class="mb-3">
+                <label for="priezvisko" class="form-label">Priezvisko</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text"
+                         id="priezvisko"
+                         th:field="*{priezvisko}"
+                         class="form-control"
+                         required>
+                </div>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('priezvisko')}"
+                     th:errors="*{priezvisko}">Zadaj priezvisko</div>
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  <input type="email"
+                         id="email"
+                         th:field="*{email}"
+                         class="form-control"
+                         required>
+                </div>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}">Zadaj platný email</div>
+              </div>
+
+              <!-- Telefón -->
+              <div class="mb-3">
+                <label for="telefon" class="form-label">Telefón</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <input type="tel"
+                         id="telefon"
+                         th:field="*{telefon}"
+                         class="form-control"
+                         required>
+                </div>
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('telefon')}"
+                     th:errors="*{telefon}">Zadaj telefónne číslo</div>
+              </div>
+
+              <!-- Adresa -->
+              <div class="row mb-3">
+                <div class="col-md-6 mb-3">
+                  <label for="ulica" class="form-label">Ulica</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    <input type="text"
+                           id="ulica"
+                           th:field="*{ulica}"
+                           class="form-control"
+                           required>
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('ulica')}"
+                       th:errors="*{ulica}">Zadaj ulicu</div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="mesto" class="form-label">Mesto</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-city"></i></span>
+                    <input type="text"
+                           id="mesto"
+                           th:field="*{mesto}"
+                           class="form-control"
+                           required>
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('mesto')}"
+                       th:errors="*{mesto}">Zadaj mesto</div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="psc" class="form-label">PSČ</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                    <input type="text"
+                           id="psc"
+                           th:field="*{psc}"
+                           class="form-control"
+                           required>
+                  </div>
+                  <div class="invalid-feedback"
+                       th:if="${#fields.hasErrors('psc')}"
+                       th:errors="*{psc}">Zadaj PSČ</div>
+                </div>
+              </div>
+
+              <!-- Tlačidlá akcií -->
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save me-2"></i> Aktualizovať
+                </button>
+                <a th:href="@{/poistenci}" class="btn btn-secondary">
+                  <i class="fas fa-times me-2"></i> Zrušiť
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>
