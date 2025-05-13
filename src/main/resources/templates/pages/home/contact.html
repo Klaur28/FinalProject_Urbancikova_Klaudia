@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" class="h-100">
+<head th:replace="~{fragments/layout.html :: head}">
+    <title>Kontakt - Evidencia Poistenia</title>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/layout.html :: header}"></header>
+
+<div class="container py-5 flex-grow-1">
+    <main role="main">
+        <!-- Hlavička sekcie -->
+        <h3 class="page-title">Kontaktujte nás</h3>
+        <div class="page-title-line mb-4"></div>
+        <div class="text-center text-muted mb-4">
+            <p>Máte otázky alebo potrebujete pomoc? Neváhajte nás kontaktovať prostredníctvom formulára nižšie.</p>
+        </div>
+
+        <!-- Alert správy o úspechu/chybe -->
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span th:text="${successMessage}">Správa bola úspešne odoslaná.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span th:text="${errorMessage}">Nastala chyba.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <!-- Kontaktný formulár -->
+        <div class="row g-3">
+            <div class="col-md-8 mx-auto">
+                <div class="bg-white rounded shadow-sm p-4">
+                    <h5 class="text-primary mb-3">Kontaktný formulár</h5>
+                    <p class="text-center">
+                        <!-- itnetwork.cz MAILFORM -->
+                        <iframe frameborder="0" scrolling="no" width="100%" height="220px"
+                                src="https://www.itnetwork.cz/api/Service-MailForm/66ce1740b925e4.66096477">
+                        </iframe>
+                        <!-- itnetwork.cz MAILFORM END -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>
