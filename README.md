@@ -21,14 +21,14 @@ Základné informácie
 
 Aplikácia obsahuje prednastavené používateľské účty:
 
-| Rola           | Email                | Heslo        | Popis                   |
-|----------------|----------------------|--------------|-------------------------|
-| ADMINISTRÁTOR  | urbancikova@admin.sk | urbancikova1 | Plný prístup           |
-| POISTENEC      | adam@matej.sk        | adam123      | Prístup len k vlastným údajom |
-| POISTENEC      | gabriel@astalos.sk   | gabriel123   | Prístup len k vlastným údajom |
-| POISTENEC      | david@vesely.sk      | david123     | Prístup len k vlastným údajom |
+| Rola          | Email                | Heslo        | Popis                         |
+|---------------|----------------------|--------------|-------------------------------|
+| ADMINISTRÁTOR | urbancikova@admin.sk | urbancikova1 | Plný prístup                  |
+| POISTENEC     | adam@matej.sk        | adam123      | Prístup len k vlastným údajom |
+| POISTENEC     | gabriel@astalos.sk   | gabriel123   | Prístup len k vlastným údajom |
+| POISTENEC     | david@vesely.sk      | david123     | Prístup len k vlastným údajom |
 
-# 3. Používateľské role
+# 3. Používateľské rolehttps://github.com/Klaur28/FinalProject_UrbancikovaKlaudia.git
 - Aplikácia podporuje dve používateľské role:
 
       - ADMINISTRÁTOR - má plný prístup ku všetkým záznamom v systéme
